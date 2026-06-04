@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { content } from "@/lib/content";
 
 type Status = "idle" | "loading" | "success" | "error";
+type ContactStrings = (typeof content)["en"]["contact"];
 
-export default function ContactForm() {
+export default function ContactForm({ t = content.en.contact }: { t?: ContactStrings }) {
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
@@ -27,17 +29,17 @@ export default function ContactForm() {
 
       if (res.ok) {
         setStatus("success");
-        setFeedback("Thanks! Your message has been sent. I'll reply within a day.");
+        setFeedback(t.success);
         setEmail("");
         setSubject("");
         setMessage("");
       } else {
         setStatus("error");
-        setFeedback(data.error || "Something went wrong. Please try again.");
+        setFeedback(data.error || t.genericError);
       }
     } catch {
       setStatus("error");
-      setFeedback("Network error. Please check your connection and try again.");
+      setFeedback(t.networkError);
     }
   }
 
@@ -50,7 +52,7 @@ export default function ContactForm() {
           className="btn btn-secondary form-submit"
           onClick={() => setStatus("idle")}
         >
-          Send another message
+          {t.another}
         </button>
       </div>
     );
@@ -69,22 +71,16 @@ export default function ContactForm() {
         value={company}
         onChange={(e) => setCompany(e.target.value)}
         aria-hidden="true"
-        style={{
-          position: "absolute",
-          left: "-9999px",
-          width: "1px",
-          height: "1px",
-          opacity: 0,
-        }}
+        style={{ position: "absolute", left: "-9999px", width: "1px", height: "1px", opacity: 0 }}
       />
 
       <div className="field">
-        <label htmlFor="email">Your email</label>
+        <label htmlFor="email">{t.emailLabel}</label>
         <input
           id="email"
           type="email"
           autoComplete="email"
-          placeholder="you@example.com"
+          placeholder={t.emailPh}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -92,11 +88,11 @@ export default function ContactForm() {
       </div>
 
       <div className="field">
-        <label htmlFor="subject">Subject</label>
+        <label htmlFor="subject">{t.subjectLabel}</label>
         <input
           id="subject"
           type="text"
-          placeholder="What's this about?"
+          placeholder={t.subjectPh}
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
           required
@@ -104,24 +100,20 @@ export default function ContactForm() {
       </div>
 
       <div className="field">
-        <label htmlFor="message">Message</label>
+        <label htmlFor="message">{t.messageLabel}</label>
         <textarea
           id="message"
-          placeholder="Write your message here…"
+          placeholder={t.messagePh}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           required
         />
       </div>
 
-      <button
-        type="submit"
-        className="btn btn-primary form-submit"
-        disabled={status === "loading"}
-      >
-        {status === "loading" ? "Sending…" : "Send message"}
+      <button type="submit" className="btn btn-primary form-submit" disabled={status === "loading"}>
+        {status === "loading" ? t.sending : t.send}
       </button>
-      <p className="form-note">I usually reply within a day.</p>
+      <p className="form-note">{t.note}</p>
     </form>
   );
 }

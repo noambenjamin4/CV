@@ -3,7 +3,25 @@
 import { useState } from "react";
 import { profile } from "@/lib/data";
 
-export default function ContactDetails() {
+type Labels = {
+  email: string;
+  phone: string;
+  elsewhere: string;
+  basedIn: string;
+  copy: string;
+  copied: string;
+};
+
+const DEFAULT_LABELS: Labels = {
+  email: "Email",
+  phone: "Phone",
+  elsewhere: "Elsewhere",
+  basedIn: "Based in",
+  copy: "Copy",
+  copied: "Copied ✓",
+};
+
+export default function ContactDetails({ labels = DEFAULT_LABELS }: { labels?: Labels }) {
   const [copied, setCopied] = useState(false);
 
   const copyEmail = async () => {
@@ -19,24 +37,24 @@ export default function ContactDetails() {
   return (
     <div className="contact-details">
       <div className="contact-detail">
-        <span className="contact-detail-label">Email</span>
+        <span className="contact-detail-label">{labels.email}</span>
         <div className="contact-detail-value">
           <a href={`mailto:${profile.email}`}>{profile.email}</a>
           <button type="button" className="copy-btn" onClick={copyEmail}>
-            {copied ? "Copied ✓" : "Copy"}
+            {copied ? labels.copied : labels.copy}
           </button>
         </div>
       </div>
 
       <div className="contact-detail">
-        <span className="contact-detail-label">Phone</span>
+        <span className="contact-detail-label">{labels.phone}</span>
         <div className="contact-detail-value">
           <a href={`tel:${profile.phone.replace(/[^0-9+]/g, "")}`}>{profile.phone}</a>
         </div>
       </div>
 
       <div className="contact-detail">
-        <span className="contact-detail-label">Elsewhere</span>
+        <span className="contact-detail-label">{labels.elsewhere}</span>
         <div className="contact-detail-value contact-detail-links">
           <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">
             LinkedIn
@@ -48,7 +66,7 @@ export default function ContactDetails() {
       </div>
 
       <div className="contact-detail">
-        <span className="contact-detail-label">Based in</span>
+        <span className="contact-detail-label">{labels.basedIn}</span>
         <div className="contact-detail-value">{profile.location}</div>
       </div>
     </div>

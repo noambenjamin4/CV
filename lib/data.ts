@@ -32,6 +32,32 @@ export const stats = [
 export const statsNote =
   "Revenue, tickets, and margin from 5 Afterlife Events shows in under one year.";
 
+export const about = {
+  paragraphs: [
+    "I'm a bilingual Dawson College student who would rather build than wait. I started Afterlife Events with no budget and no audience — just outreach, negotiation, and a lot of follow-up.",
+    "In under a year it grew to five events, 1,500+ tickets, and over $50K in revenue at roughly 47% margin, all with zero ad spend. Outside of that I've spent 6+ years as a self-taught mixing engineer and build small web projects on the side. The throughline is the same: spot the opening, do the unglamorous work, and close.",
+  ],
+};
+
+export const caseStudy = {
+  title: "Afterlife Events",
+  tag: "Featured",
+  rows: [
+    {
+      k: "Problem",
+      v: "No budget, no following, and a crowded Montréal nightlife market to break into.",
+    },
+    {
+      k: "Approach",
+      v: "Cold outreach, organic content, and word of mouth to sell out rooms; negotiated venue, vendor, and sponsorship deals to protect margin; hired and led a team of 10+.",
+    },
+    {
+      k: "Result",
+      v: "5 events, 1,500+ tickets, and $50K+ in revenue at ~47% margin in under a year — with zero ad spend.",
+    },
+  ],
+};
+
 export type Experience = {
   role: string;
   org: string;
@@ -124,6 +150,28 @@ export const projects: Project[] = [
     tag: "Builder · AI tools",
     description:
       "I build websites and small apps with AI coding tools like Claude and ChatGPT, and edit videos and montages in Final Cut Pro.",
+  },
+];
+
+export type Track = {
+  title: string;
+  genre: string;
+  src: string;
+  duration: string;
+};
+
+export const tracks: Track[] = [
+  {
+    title: "Breathe Easy",
+    genre: "Pop",
+    src: "/audio/breathe-easy.m4a",
+    duration: "2:56",
+  },
+  {
+    title: "Wildest Thoughts",
+    genre: "Pop / R&B",
+    src: "/audio/wildest-thoughts.m4a",
+    duration: "0:52",
   },
 ];
 

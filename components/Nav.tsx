@@ -4,22 +4,37 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { profile } from "@/lib/data";
+import { content, type Locale } from "@/lib/content";
 import ThemeToggle from "@/components/ThemeToggle";
+import SiteLangSwitcher from "@/components/SiteLangSwitcher";
 
-const sections = [
-  { id: "experience", label: "Experience" },
-  { id: "projects", label: "Projects" },
-  { id: "education", label: "Education" },
-];
+type NavLabels = (typeof content)["en"]["nav"];
 
-export default function Nav() {
+export default function Nav({
+  lang = "en",
+  labels = content.en.nav,
+}: {
+  lang?: Locale;
+  labels?: NavLabels;
+}) {
   const pathname = usePathname();
   const [active, setActive] = useState("");
   const [open, setOpen] = useState(false);
 
+  const base = lang === "en" ? "" : `/${lang}`;
+  const homeHref = base || "/";
+  const contactHref = `${base}/contact`;
+
+  const sections = [
+    { id: "experience", label: labels.experience },
+    { id: "projects", label: labels.projects },
+    { id: "music", label: labels.music },
+    { id: "education", label: labels.education },
+  ];
+
   // Highlight the section currently in view (home page only).
   useEffect(() => {
-    if (pathname !== "/") {
+    if (pathname !== homeHref) {
       setActive("");
       return;
     }
@@ -38,9 +53,9 @@ export default function Nav() {
     );
     els.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, [pathname]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname, homeHref]);
 
-  // Lock background scroll while the mobile menu is open.
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
@@ -54,7 +69,7 @@ export default function Nav() {
     <>
       <nav className="nav">
         <div className="nav-inner">
-          <Link href="/" className="nav-brand" onClick={close}>
+          <Link href={homeHref} className="nav-brand" onClick={close}>
             {profile.name}
           </Link>
 
@@ -62,15 +77,19 @@ export default function Nav() {
             {sections.map((s) => (
               <Link
                 key={s.id}
-                href={`/#${s.id}`}
+                href={`${homeHref}#${s.id}`}
                 className={`nav-hide ${active === s.id ? "active" : ""}`}
               >
                 {s.label}
               </Link>
             ))}
+
+            <span className="nav-hide">
+              <SiteLangSwitcher current={lang} pathname={pathname} />
+            </span>
             <ThemeToggle />
-            <Link href="/contact" className="nav-cta">
-              Contact
+            <Link href={contactHref} className="nav-cta">
+              {labels.contact}
             </Link>
             <button
               type="button"
@@ -86,23 +105,20 @@ export default function Nav() {
         </div>
       </nav>
 
-      <div
-        className={`nav-overlay ${open ? "open" : ""}`}
-        onClick={close}
-        aria-hidden={!open}
-      >
+      <div className={`nav-overlay ${open ? "open" : ""}`} onClick={close} aria-hidden={!open}>
         <div className="nav-overlay-links">
           {sections.map((s) => (
-            <Link key={s.id} href={`/#${s.id}`} onClick={close}>
+            <Link key={s.id} href={`${homeHref}#${s.id}`} onClick={close}>
               {s.label}
             </Link>
           ))}
-          <Link href="/contact" onClick={close}>
-            Contact
+          <Link href={contactHref} onClick={close}>
+            {labels.contact}
           </Link>
           <a href={profile.cv} download onClick={close}>
-            Download CV
+            {labels.download}
           </a>
+          <SiteLangSwitcher current={lang} pathname={pathname} variant="menu" />
         </div>
       </div>
     </>
