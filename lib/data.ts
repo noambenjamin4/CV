@@ -161,18 +161,20 @@ export type Track = {
 };
 
 export const tracks: Track[] = [
-  {
-    title: "Breathe Easy",
-    genre: "Pop",
-    src: "/audio/breathe-easy.m4a",
-    duration: "2:56",
-  },
-  {
-    title: "Wildest Thoughts",
-    genre: "Pop / R&B",
-    src: "/audio/wildest-thoughts.m4a",
-    duration: "0:52",
-  },
+  { title: "Breathe Easy", genre: "Pop", src: "/audio/breathe-easy.m4a", duration: "2:56" },
+  { title: "Spotlight", genre: "Pop", src: "/audio/spotlight.m4a", duration: "2:54" },
+  { title: "Wildest Thoughts", genre: "Pop / R&B", src: "/audio/wildest-thoughts.m4a", duration: "0:52" },
+  { title: "Dial Tone", genre: "Hip-Hop / Rap", src: "/audio/dial-tone.m4a", duration: "2:36" },
+  { title: "Bentley", genre: "Hip-Hop / Rap", src: "/audio/bentley.m4a", duration: "2:13" },
+  { title: "Take Me On", genre: "Rock", src: "/audio/take-me-on.m4a", duration: "2:36" },
+  { title: "Next Time", genre: "Rock", src: "/audio/next-time.m4a", duration: "3:47" },
+  { title: "The Archetype", genre: "Electronic", src: "/audio/the-archetype.m4a", duration: "2:31" },
+  { title: "Stay the Course", genre: "Electronic", src: "/audio/stay-the-course.m4a", duration: "2:30" },
+  { title: "Again & Again", genre: "Electronic", src: "/audio/again-and-again.m4a", duration: "2:21" },
+  { title: "By My Side", genre: "Electronic", src: "/audio/by-my-side.m4a", duration: "2:20" },
+  { title: "Feed Your Soul", genre: "Electronic", src: "/audio/feed-your-soul.m4a", duration: "1:56" },
+  { title: "Work Together", genre: "Electronic", src: "/audio/work-together.m4a", duration: "1:55" },
+  { title: "Sunset / Sunrise", genre: "Binaural Mix", src: "/audio/sunset-sunrise.m4a", duration: "2:25" },
 ];
 
 export const skills = [

@@ -1031,6 +1031,10 @@ section {
   border-top: 1px solid var(--border-strong);
 }
 
+.player-row:last-child {
+  border-bottom: none;
+}
+
 .player-row {
   display: flex;
   align-items: center;
