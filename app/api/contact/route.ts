@@ -21,6 +21,12 @@ const hits = new Map<string, number[]>();
 
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
+  // Sweep stale IPs occasionally so the map can't grow unbounded.
+  if (hits.size > 5000) {
+    for (const [key, times] of hits) {
+      if (times.every((t) => now - t >= RATE_WINDOW_MS)) hits.delete(key);
+    }
+  }
   const recent = (hits.get(ip) || []).filter((t) => now - t < RATE_WINDOW_MS);
   recent.push(now);
   hits.set(ip, recent);
@@ -63,7 +69,7 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
-  if (!EMAIL_RE.test(email)) {
+  if (!EMAIL_RE.test(email) || email.length > 254) {
     return NextResponse.json(
       { error: "Please enter a valid email address." },
       { status: 400 }
