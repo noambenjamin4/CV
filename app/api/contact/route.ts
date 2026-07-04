@@ -120,9 +120,34 @@ export async function POST(request: Request) {
     }
   }
 
-  // --- 3. Decide the response ---
-  if (emailed || stored) {
-    return NextResponse.json({ ok: true, stored, emailed });
+  // --- 3. Forward to n8n for extra automations (notify / auto-reply / CRM / follow-up) ---
+  let forwarded = false;
+  const n8nUrl = process.env.N8N_WEBHOOK_URL;
+  if (n8nUrl) {
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 4000);
+      const res = await fetch(n8nUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          subject,
+          message,
+          received_at: new Date().toISOString(),
+        }),
+        signal: controller.signal,
+      });
+      clearTimeout(timer);
+      forwarded = res.ok;
+    } catch (err) {
+      console.error("[contact] n8n forward failed:", err);
+    }
+  }
+
+  // --- 4. Decide the response ---
+  if (emailed || stored || forwarded) {
+    return NextResponse.json({ ok: true, stored, emailed, forwarded });
   }
 
   // Nothing configured: succeed in dev (log it), fail loudly in production.
