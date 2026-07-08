@@ -5,6 +5,7 @@ import Reveal from "@/components/Reveal";
 import CvDownload from "@/components/CvDownload";
 import CountUp from "@/components/CountUp";
 import MusicPlayer from "@/components/MusicPlayer";
+import HeroReel from "@/components/HeroReel";
 import { profile, siteUrl, education as eduData, skills as skillsData } from "@/lib/data";
 import { dirOf, type SiteContent } from "@/lib/content";
 
@@ -52,6 +53,7 @@ export default function SiteHome({ t }: { t: SiteContent }) {
       {/* Hero */}
       <header className="hero">
         <div className="container">
+          <HeroReel />
           <div className="hero-index">
             <span className="hero-status">
               <span className="availability-dot" aria-hidden="true" />
