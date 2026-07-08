@@ -52,30 +52,32 @@ export default function SiteHome({ t }: { t: SiteContent }) {
 
       {/* Hero */}
       <header className="hero">
-        <div className="container">
+        <div className="container hero-grid">
+          <div className="hero-content">
+            <div className="hero-index">
+              <span className="hero-status">
+                <span className="availability-dot" aria-hidden="true" />
+                {t.hero.availability}
+              </span>
+              <span>{t.hero.cvLine}</span>
+            </div>
+            <h1 className="hero-name">{profile.name}</h1>
+            <p className="hero-title">{t.hero.title}</p>
+            <p className="hero-meta">
+              {t.hero.meta.map((m) => (
+                <span key={m}>{m}</span>
+              ))}
+            </p>
+            <p className="hero-summary">{t.hero.summary}</p>
+            <div className="hero-actions">
+              <Link href={contactHref} className="btn btn-primary">
+                {t.hero.getInTouch}
+                <span className="btn-arrow" aria-hidden="true">↗</span>
+              </Link>
+              <CvDownload className="btn btn-secondary" label={t.hero.downloadCv} />
+            </div>
+          </div>
           <HeroReel />
-          <div className="hero-index">
-            <span className="hero-status">
-              <span className="availability-dot" aria-hidden="true" />
-              {t.hero.availability}
-            </span>
-            <span>{t.hero.cvLine}</span>
-          </div>
-          <h1 className="hero-name">{profile.name}</h1>
-          <p className="hero-title">{t.hero.title}</p>
-          <p className="hero-meta">
-            {t.hero.meta.map((m) => (
-              <span key={m}>{m}</span>
-            ))}
-          </p>
-          <p className="hero-summary">{t.hero.summary}</p>
-          <div className="hero-actions">
-            <Link href={contactHref} className="btn btn-primary">
-              {t.hero.getInTouch}
-              <span className="btn-arrow" aria-hidden="true">↗</span>
-            </Link>
-            <CvDownload className="btn btn-secondary" label={t.hero.downloadCv} />
-          </div>
         </div>
       </header>
 

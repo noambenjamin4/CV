@@ -458,39 +458,30 @@ section {
   text-align: left;
 }
 
-.hero .container {
-  position: relative;
+/* Two columns: text on the left, video on the right — no overlap. */
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(300px, 32vw, 440px);
+  gap: clamp(28px, 4vw, 72px);
+  align-items: center;
 }
 
-/* Looping turntable clip, right side of the hero — soft-masked so its
-   edges melt into the background. Pauses on hover (see HeroReel.tsx). */
+/* Looping turntable clip — soft-masked so its edges melt into the
+   background. Pauses on hover (see HeroReel.tsx). */
 .hero-reel {
-  position: absolute;
-  right: clamp(-8px, 2vw, 48px);
-  top: 52%;
-  transform: translateY(-50%);
-  width: clamp(230px, 27vw, 380px);
-  aspect-ratio: 4 / 5;
+  width: 100%;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
-  object-position: center 42%;
-  opacity: 0.9;
-  z-index: 0;
-  pointer-events: auto;
-  -webkit-mask-image: radial-gradient(ellipse 62% 66% at 50% 46%, #000 46%, transparent 100%);
-  mask-image: radial-gradient(ellipse 62% 66% at 50% 46%, #000 46%, transparent 100%);
-}
-
-.hero-index,
-.hero-name,
-.hero-title,
-.hero-meta,
-.hero-summary,
-.hero-actions {
-  position: relative;
-  z-index: 1;
+  object-position: center 45%;
+  opacity: 0.95;
+  -webkit-mask-image: radial-gradient(ellipse 70% 74% at 50% 48%, #000 52%, transparent 100%);
+  mask-image: radial-gradient(ellipse 70% 74% at 50% 48%, #000 52%, transparent 100%);
 }
 
 @media (max-width: 900px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
   .hero-reel {
     display: none;
   }
