@@ -475,12 +475,24 @@ section {
   object-position: center center;
 }
 
+/* Static still is desktop-hidden; shown only on mobile. */
+.hero-still {
+  display: none;
+}
+
 @media (max-width: 900px) {
   .hero-grid {
     grid-template-columns: 1fr;
   }
   .hero-reel {
     display: none;
+  }
+  /* Small centered figure below the text on phones. */
+  .hero-still {
+    display: block;
+    width: clamp(150px, 46vw, 230px);
+    height: auto;
+    margin: 8px auto 0;
   }
 }
 

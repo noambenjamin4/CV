@@ -31,20 +31,23 @@ export default function HeroReel() {
   }, []);
 
   return (
-    <video
-      ref={ref}
-      className="hero-reel"
-      autoPlay
-      loop
-      muted
-      playsInline
-      preload="auto"
-      aria-hidden="true"
-    >
-      {/* Transparent-background cutout (VP9 alpha) for Chrome/Firefox/Edge; */}
-      {/* the mp4 is an opaque fallback for browsers without VP9 alpha. */}
-      <source src="/suit-noam.webm" type="video/webm" />
-      <source src="/suit-noam.mp4" type="video/mp4" />
-    </video>
+    <>
+      {/* Desktop: rotating transparent cutout (VP9 alpha, Chrome/Firefox/Edge). */}
+      <video
+        ref={ref}
+        className="hero-reel"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+      >
+        <source src="/suit-noam.webm" type="video/webm" />
+        <source src="/suit-noam.mp4" type="video/mp4" />
+      </video>
+      {/* Mobile: small static transparent still — works on every browser incl. iOS. */}
+      <img className="hero-still" src="/suit-noam.webp" alt="" aria-hidden="true" />
+    </>
   );
 }
