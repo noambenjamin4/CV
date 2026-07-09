@@ -461,18 +461,18 @@ section {
 /* Two columns: text on the left, video on the right — no overlap. */
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) clamp(300px, 32vw, 440px);
-  gap: clamp(28px, 4vw, 72px);
+  grid-template-columns: minmax(0, 1fr) clamp(340px, 38vw, 520px);
+  gap: clamp(24px, 3vw, 56px);
   align-items: center;
 }
 
-/* Looping turntable cutout (transparent background) — blends on any theme.
+/* Looping cutout (transparent background) — blends on any theme.
    Pauses on hover (see HeroReel.tsx). */
 .hero-reel {
   width: 100%;
   aspect-ratio: 3 / 4;
   object-fit: contain;
-  object-position: center bottom;
+  object-position: center center;
 }
 
 @media (max-width: 900px) {
