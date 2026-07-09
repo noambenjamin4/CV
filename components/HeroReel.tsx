@@ -34,13 +34,17 @@ export default function HeroReel() {
     <video
       ref={ref}
       className="hero-reel"
-      src="/suit-noam.mp4"
       autoPlay
       loop
       muted
       playsInline
       preload="auto"
       aria-hidden="true"
-    />
+    >
+      {/* Transparent-background cutout (VP9 alpha) for Chrome/Firefox/Edge; */}
+      {/* the mp4 is an opaque fallback for browsers without VP9 alpha. */}
+      <source src="/suit-noam.webm" type="video/webm" />
+      <source src="/suit-noam.mp4" type="video/mp4" />
+    </video>
   );
 }

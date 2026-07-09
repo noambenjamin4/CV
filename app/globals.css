@@ -466,16 +466,13 @@ section {
   align-items: center;
 }
 
-/* Looping turntable clip — soft-masked so its edges melt into the
-   background. Pauses on hover (see HeroReel.tsx). */
+/* Looping turntable cutout (transparent background) — blends on any theme.
+   Pauses on hover (see HeroReel.tsx). */
 .hero-reel {
   width: 100%;
   aspect-ratio: 3 / 4;
-  object-fit: cover;
-  object-position: center 45%;
-  opacity: 0.95;
-  -webkit-mask-image: radial-gradient(ellipse 70% 74% at 50% 48%, #000 52%, transparent 100%);
-  mask-image: radial-gradient(ellipse 70% 74% at 50% 48%, #000 52%, transparent 100%);
+  object-fit: contain;
+  object-position: center bottom;
 }
 
 @media (max-width: 900px) {
