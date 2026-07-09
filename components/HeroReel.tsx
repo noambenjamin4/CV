@@ -3,9 +3,8 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Looping turntable clip in the hero. Auto-plays and loops forever;
- * pauses while the cursor is over it and resumes on mouse-out.
- * Soft-masked edges so it melts into the dark hero background.
+ * Looping turntable clip in the hero (desktop only). Auto-plays and loops
+ * forever, continuously — never pauses. Transparent VP9-alpha cutout.
  */
 export default function HeroReel() {
   const ref = useRef<HTMLVideoElement>(null);
@@ -13,41 +12,29 @@ export default function HeroReel() {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const pause = () => el.pause();
+    // Keep it playing: some browsers ignore the autoplay attribute until an
+    // explicit play() (allowed because it is muted + playsInline).
     const resume = () => {
       void el.play();
     };
-    // Some browsers ignore the autoplay attribute until an explicit play();
-    // muted + playsInline makes this allowed.
-    void el.play();
+    resume();
     el.addEventListener("canplay", resume);
-    el.addEventListener("mouseenter", pause);
-    el.addEventListener("mouseleave", resume);
-    return () => {
-      el.removeEventListener("canplay", resume);
-      el.removeEventListener("mouseenter", pause);
-      el.removeEventListener("mouseleave", resume);
-    };
+    return () => el.removeEventListener("canplay", resume);
   }, []);
 
   return (
-    <>
-      {/* Desktop: rotating transparent cutout (VP9 alpha, Chrome/Firefox/Edge). */}
-      <video
-        ref={ref}
-        className="hero-reel"
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        aria-hidden="true"
-      >
-        <source src="/suit-noam.webm" type="video/webm" />
-        <source src="/suit-noam.mp4" type="video/mp4" />
-      </video>
-      {/* Mobile: small static transparent still — works on every browser incl. iOS. */}
-      <img className="hero-still" src="/suit-noam.webp" alt="" aria-hidden="true" />
-    </>
+    <video
+      ref={ref}
+      className="hero-reel"
+      autoPlay
+      loop
+      muted
+      playsInline
+      preload="auto"
+      aria-hidden="true"
+    >
+      <source src="/suit-noam.webm" type="video/webm" />
+      <source src="/suit-noam.mp4" type="video/mp4" />
+    </video>
   );
 }
