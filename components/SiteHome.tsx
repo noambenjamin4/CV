@@ -9,20 +9,68 @@ import HeroReel from "@/components/HeroReel";
 import { profile, siteUrl, education as eduData, skills as skillsData } from "@/lib/data";
 import { dirOf, type SiteContent } from "@/lib/content";
 
+const personId = `${siteUrl}/#person`;
+
 const personSchema = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  name: profile.name,
-  jobTitle: profile.title,
-  email: `mailto:${profile.email}`,
-  telephone: profile.phone,
-  url: siteUrl,
-  address: { "@type": "PostalAddress", addressLocality: "Montréal", addressRegion: "QC", addressCountry: "CA" },
-  sameAs: [profile.linkedin, profile.instagram],
-  alumniOf: eduData.map((e) => ({ "@type": "EducationalOrganization", name: e.school })),
-  worksFor: { "@type": "Organization", name: "Afterlife Events" },
-  knowsAbout: skillsData,
-  knowsLanguage: ["English", "French"],
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": personId,
+      name: profile.name,
+      jobTitle: profile.title,
+      description: profile.summary,
+      image: `${siteUrl}/og.png`,
+      email: `mailto:${profile.email}`,
+      telephone: profile.phone,
+      url: siteUrl,
+      address: { "@type": "PostalAddress", addressLocality: "Montréal", addressRegion: "QC", addressCountry: "CA" },
+      sameAs: [profile.linkedin, profile.instagram],
+      alumniOf: eduData.map((e) => ({ "@type": "EducationalOrganization", name: e.school })),
+      worksFor: { "@type": "Organization", name: "Afterlife Events", founder: { "@id": personId } },
+      knowsAbout: [
+        ...skillsData,
+        "Event production",
+        "Audio engineering & mixing",
+        "Web development with AI tools",
+      ],
+      knowsLanguage: ["English", "French"],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      url: siteUrl,
+      name: `${profile.name} — CV & Portfolio`,
+      inLanguage: ["en", "fr", "es", "pt", "de", "it", "zh", "ja", "ko", "ru", "ar", "hi"],
+      about: { "@id": personId },
+      publisher: { "@id": personId },
+      dateModified: "2026-07",
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "TuneBad",
+      url: "https://www.tunebad.com",
+      applicationCategory: "MultimediaApplication",
+      operatingSystem: "Web browser",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "CAD" },
+      description:
+        "Free browser-based music toolkit for producers: BPM and key analysis, tempo-locked delay and reverb calculators, streaming loudness checks, slowed + reverb edits, and audio conversion — private, client-side processing in 8 languages.",
+      author: { "@id": personId },
+      creator: { "@id": personId },
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "BreakBuddy",
+      url: "https://breakbuddy-app.vercel.app",
+      applicationCategory: "LifestyleApplication",
+      operatingSystem: "Web, iOS, Android (Expo)",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "CAD" },
+      description:
+        "Social timetable app for college students that lines your class schedule up with your friends' so free periods overlap — see who's free right now and make a plan in two taps. Launched at Dawson College, Montréal.",
+      author: { "@id": personId },
+      creator: { "@id": personId },
+    },
+  ],
 };
 
 function SectionHead({ index, label, title }: { index: string; label: string; title: string }) {

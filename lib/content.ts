@@ -62,8 +62,15 @@ export type SiteContent = {
 const NAME = profile.name;
 const ORGS = ["Afterlife Events", "Zara, Montréal", "YCC Sleepaway Camp", "JHoops Basketball Camp", "Villa Maria Basketball Team"];
 const STAT_VALUES = ["$50K+", "1,500+", "~47%", "600+"];
-const LINK = profile.instagram;
-const LINKLABEL = profile.instagramLabel;
+// Per-project links, matching projTitles order:
+// [Afterlife, TuneBad, BreakBuddy, Audio, Tech & Web]
+const PROJECT_LINKS: ({ link: string; linkLabel: string } | undefined)[] = [
+  { link: profile.instagram, linkLabel: profile.instagramLabel },
+  { link: "https://www.tunebad.com", linkLabel: "tunebad.com" },
+  { link: "https://breakbuddy-app.vercel.app", linkLabel: "breakbuddy-app.vercel.app" },
+  undefined,
+  undefined,
+];
 const cvLine = `${profile.location} / CV 2026`;
 
 type Raw = {
@@ -143,11 +150,12 @@ function make(code: Locale, r: Raw): SiteContent {
     projects: {
       label: r.projLabel,
       title: r.projTitle,
-      items: [
-        { title: r.projTitles[0], tag: r.projTags[0], description: r.projDescs[0], link: LINK, linkLabel: LINKLABEL },
-        { title: r.projTitles[1], tag: r.projTags[1], description: r.projDescs[1] },
-        { title: r.projTitles[2], tag: r.projTags[2], description: r.projDescs[2] },
-      ],
+      items: r.projTitles.map((title, i) => ({
+        title,
+        tag: r.projTags[i],
+        description: r.projDescs[i],
+        ...(PROJECT_LINKS[i] ?? {}),
+      })),
     },
     music: { label: r.musicLabel, title: r.musicTitle, intro: r.musicIntro, playLabel: r.playLabel },
     capabilities: {
@@ -209,10 +217,12 @@ const RAW: Record<Locale, Raw> = {
     ],
     projLabel: "Projects / Ventures",
     projTitle: "Things I've built",
-    projTitles: ["Afterlife Events", "Audio Engineering", "Technology & Web"],
-    projTags: ["Founder · Events", "Self-taught · 6+ years", "Builder · AI tools"],
+    projTitles: ["Afterlife Events", "TuneBad", "BreakBuddy", "Audio Engineering", "Technology & Web"],
+    projTags: ["Founder · Events", "Built & shipped · Music tools", "In development · Student app", "Self-taught · 6+ years", "Builder · AI tools"],
     projDescs: [
       "A profitable events business I built from scratch: 5 events, 1,500+ tickets, and over $50K in revenue at roughly 47% margin, all with zero ad spend.",
+      "A free browser-based music toolkit for producers, live at tunebad.com: BPM and key analysis, tempo-locked delay and reverb calculators, streaming loudness checks, slowed + reverb edits, and audio conversion. Everything runs privately in the browser, in 8 languages.",
+      "A social timetable app for college students that I'm building right now: it lines your class schedule up with your friends' so free periods actually overlap — see who's free and plan a break in two taps. Launched at Dawson College with the app, API, and web live.",
       "Mixing engineer for 6+ years. I've mixed 600+ songs across pop, rap, Afrobeat, and more for paying clients, working in Logic Pro and FL Studio.",
       "I build websites and small apps with AI coding tools like Claude and ChatGPT, and edit videos and montages in Final Cut Pro.",
     ],
@@ -239,7 +249,7 @@ const RAW: Record<Locale, Raw> = {
     ctaText: "Whether it's a role, a project, or an event, I'd like to hear about it. I usually reply within a day.",
     ctaButton: "Contact me",
     footerRights: `© 2026 ${NAME}. All rights reserved.`,
-    footerSub: `Open to new opportunities · ${profile.location} · Updated May 2026`,
+    footerSub: `Open to new opportunities · ${profile.location} · Updated July 2026`,
     contact: {
       back: "← Back to home", h1: "Say hello.",
       intro: "Have an opportunity, question, or idea? Send me a message and it lands straight in my inbox. I usually reply within 24 hours.",
@@ -288,10 +298,12 @@ const RAW: Record<Locale, Raw> = {
     ],
     projLabel: "Projets",
     projTitle: "Ce que j'ai bâti",
-    projTitles: ["Afterlife Events", "Ingénierie audio", "Technologie et web"],
-    projTags: ["Fondateur · Événementiel", "Autodidacte · 6+ ans", "Créateur · Outils d'IA"],
+    projTitles: ["Afterlife Events", "TuneBad", "BreakBuddy", "Ingénierie audio", "Technologie et web"],
+    projTags: ["Fondateur · Événementiel", "Conçu et lancé · Outils musicaux", "En développement · App étudiante", "Autodidacte · 6+ ans", "Créateur · Outils d'IA"],
     projDescs: [
       "Une entreprise événementielle rentable bâtie de zéro : 5 événements, plus de 1 500 billets et plus de 50 000 $ de revenus à environ 47 % de marge, sans aucune dépense publicitaire.",
+      "Une boîte à outils musicale gratuite dans le navigateur pour les producteurs, en ligne sur tunebad.com : analyse du BPM et de la tonalité, calculs de delay et de réverbération synchronisés au tempo, vérification du loudness pour le streaming, éditions slowed + reverb et conversion audio. Tout fonctionne en privé dans le navigateur, en 8 langues.",
+      "Une app d'horaires sociale pour étudiants que je développe en ce moment : elle aligne ton horaire de cours avec ceux de tes amis pour voir quelles pauses coïncident — vois qui est libre et planifie une pause en deux touches. Lancée au Collège Dawson avec l'app, l'API et le web en ligne.",
       "Ingénieur de mixage depuis plus de 6 ans. J'ai mixé plus de 600 morceaux (pop, rap, Afrobeat et autres) pour des clients payants, sur Logic Pro et FL Studio.",
       "Je crée des sites web et de petites applications avec des outils d'IA comme Claude et ChatGPT, et je monte des vidéos sur Final Cut Pro.",
     ],
@@ -318,7 +330,7 @@ const RAW: Record<Locale, Raw> = {
     ctaText: "Un poste, un projet ou un événement ? J'aimerais en entendre parler. Je réponds généralement en moins d'une journée.",
     ctaButton: "Me contacter",
     footerRights: `© 2026 ${NAME}. Tous droits réservés.`,
-    footerSub: `Ouvert aux nouvelles opportunités · ${profile.location} · Mis à jour mai 2026`,
+    footerSub: `Ouvert aux nouvelles opportunités · ${profile.location} · Mis à jour juillet 2026`,
     contact: {
       back: "← Retour à l'accueil", h1: "Dites bonjour.",
       intro: "Une opportunité, une question ou une idée ? Envoyez-moi un message, il arrive directement dans ma boîte de réception. Je réponds généralement en moins de 24 heures.",
@@ -367,10 +379,12 @@ const RAW: Record<Locale, Raw> = {
     ],
     projLabel: "Proyectos",
     projTitle: "Lo que he creado",
-    projTitles: ["Afterlife Events", "Ingeniería de audio", "Tecnología y web"],
-    projTags: ["Fundador · Eventos", "Autodidacta · 6+ años", "Creador · Herramientas de IA"],
+    projTitles: ["Afterlife Events", "TuneBad", "BreakBuddy", "Ingeniería de audio", "Tecnología y web"],
+    projTags: ["Fundador · Eventos", "Creado y lanzado · Herramientas musicales", "En desarrollo · App estudiantil", "Autodidacta · 6+ años", "Creador · Herramientas de IA"],
     projDescs: [
       "Un negocio de eventos rentable que construí desde cero: 5 eventos, más de 1.500 entradas y más de 50.000 $ en ingresos a cerca del 47 % de margen, todo sin gasto en publicidad.",
+      "Una caja de herramientas musical gratuita en el navegador para productores, disponible en tunebad.com: análisis de BPM y tonalidad, calculadoras de delay y reverb sincronizadas al tempo, comprobación de loudness para streaming, ediciones slowed + reverb y conversión de audio. Todo se procesa de forma privada en el navegador, en 8 idiomas.",
+      "Una app social de horarios para estudiantes universitarios que estoy construyendo ahora: alinea tu horario de clases con el de tus amigos para ver qué períodos libres coinciden — mira quién está libre y planea un descanso en dos toques. Lanzada en Dawson College con la app, la API y la web en línea.",
       "Ingeniero de mezcla desde hace más de 6 años. He mezclado más de 600 canciones de pop, rap, Afrobeat y otros géneros para clientes de pago, usando Logic Pro y FL Studio.",
       "Creo sitios web y pequeñas aplicaciones con herramientas de IA como Claude y ChatGPT, y edito vídeos y montajes en Final Cut Pro.",
     ],
@@ -397,7 +411,7 @@ const RAW: Record<Locale, Raw> = {
     ctaText: "Ya sea un puesto, un proyecto o un evento, me gustaría conocerlo. Suelo responder en menos de un día.",
     ctaButton: "Contáctame",
     footerRights: `© 2026 ${NAME}. Todos los derechos reservados.`,
-    footerSub: `Abierto a nuevas oportunidades · ${profile.location} · Actualizado mayo 2026`,
+    footerSub: `Abierto a nuevas oportunidades · ${profile.location} · Actualizado julio 2026`,
     contact: {
       back: "← Volver al inicio", h1: "Hola.",
       intro: "¿Tienes una oportunidad, una pregunta o una idea? Envíame un mensaje y llegará directo a mi bandeja. Suelo responder en menos de 24 horas.",
@@ -446,10 +460,12 @@ const RAW: Record<Locale, Raw> = {
     ],
     projLabel: "Projetos",
     projTitle: "O que construí",
-    projTitles: ["Afterlife Events", "Engenharia de áudio", "Tecnologia e web"],
-    projTags: ["Fundador · Eventos", "Autodidata · 6+ anos", "Criador · Ferramentas de IA"],
+    projTitles: ["Afterlife Events", "TuneBad", "BreakBuddy", "Engenharia de áudio", "Tecnologia e web"],
+    projTags: ["Fundador · Eventos", "Criado e lançado · Ferramentas musicais", "Em desenvolvimento · App estudantil", "Autodidata · 6+ anos", "Criador · Ferramentas de IA"],
     projDescs: [
       "Um negócio de eventos lucrativo que construí do zero: 5 eventos, mais de 1.500 ingressos e mais de US$ 50 mil em receita a cerca de 47% de margem, tudo sem gasto com anúncios.",
+      "Uma caixa de ferramentas musical gratuita no navegador para produtores, no ar em tunebad.com: análise de BPM e tom, calculadoras de delay e reverb travadas no tempo, verificação de loudness para streaming, edições slowed + reverb e conversão de áudio. Tudo roda de forma privada no navegador, em 8 idiomas.",
+      "Um app social de horários para estudantes universitários que estou construindo agora: ele alinha sua grade de aulas com a dos seus amigos para os períodos livres realmente coincidirem — veja quem está livre e planeje uma pausa em dois toques. Lançado no Dawson College com app, API e web no ar.",
       "Engenheiro de mixagem há mais de 6 anos. Já mixei mais de 600 músicas de pop, rap, Afrobeat e outros gêneros para clientes pagantes, usando Logic Pro e FL Studio.",
       "Crio sites e pequenos aplicativos com ferramentas de IA como Claude e ChatGPT, e edito vídeos e montagens no Final Cut Pro.",
     ],
@@ -476,7 +492,7 @@ const RAW: Record<Locale, Raw> = {
     ctaText: "Seja uma vaga, um projeto ou um evento, eu gostaria de saber. Costumo responder em menos de um dia.",
     ctaButton: "Fale comigo",
     footerRights: `© 2026 ${NAME}. Todos os direitos reservados.`,
-    footerSub: `Aberto a novas oportunidades · ${profile.location} · Atualizado maio 2026`,
+    footerSub: `Aberto a novas oportunidades · ${profile.location} · Atualizado julho 2026`,
     contact: {
       back: "← Voltar ao início", h1: "Olá.",
       intro: "Tem uma oportunidade, dúvida ou ideia? Envie uma mensagem e ela chega direto na minha caixa de entrada. Costumo responder em menos de 24 horas.",
@@ -525,10 +541,12 @@ const RAW: Record<Locale, Raw> = {
     ],
     projLabel: "Projekte",
     projTitle: "Was ich gebaut habe",
-    projTitles: ["Afterlife Events", "Audio-Engineering", "Technologie & Web"],
-    projTags: ["Gründer · Events", "Autodidakt · 6+ Jahre", "Entwickler · KI-Tools"],
+    projTitles: ["Afterlife Events", "TuneBad", "BreakBuddy", "Audio-Engineering", "Technologie & Web"],
+    projTags: ["Gründer · Events", "Entwickelt & veröffentlicht · Musik-Tools", "In Entwicklung · Studenten-App", "Autodidakt · 6+ Jahre", "Entwickler · KI-Tools"],
     projDescs: [
       "Ein profitables Eventunternehmen, das ich von Grund auf aufgebaut habe: 5 Events, über 1.500 Tickets und mehr als 50.000 $ Umsatz bei rund 47 % Marge — ganz ohne Werbebudget.",
+      "Ein kostenloses browserbasiertes Musik-Toolkit für Produzenten, live auf tunebad.com: BPM- und Tonart-Analyse, tempo-synchrone Delay- und Reverb-Rechner, Loudness-Check fürs Streaming, Slowed-+-Reverb-Edits und Audiokonvertierung. Alles läuft privat im Browser, in 8 Sprachen.",
+      "Eine soziale Stundenplan-App für Studierende, an der ich gerade arbeite: Sie gleicht deinen Stundenplan mit dem deiner Freunde ab, damit sich Freistunden wirklich überschneiden — sieh, wer frei hat, und plane eine Pause in zwei Taps. Am Dawson College gestartet, App, API und Web sind live.",
       "Seit über 6 Jahren Mixing-Engineer. Über 600 Songs aus Pop, Rap, Afrobeat und mehr für zahlende Kunden gemischt, mit Logic Pro und FL Studio.",
       "Ich baue Websites und kleine Apps mit KI-Tools wie Claude und ChatGPT und schneide Videos in Final Cut Pro.",
     ],
@@ -555,7 +573,7 @@ const RAW: Record<Locale, Raw> = {
     ctaText: "Ob eine Stelle, ein Projekt oder ein Event — ich höre gern davon. Ich antworte meist innerhalb eines Tages.",
     ctaButton: "Kontaktiere mich",
     footerRights: `© 2026 ${NAME}. Alle Rechte vorbehalten.`,
-    footerSub: `Offen für neue Möglichkeiten · ${profile.location} · Aktualisiert Mai 2026`,
+    footerSub: `Offen für neue Möglichkeiten · ${profile.location} · Aktualisiert Juli 2026`,
     contact: {
       back: "← Zurück zur Startseite", h1: "Sag Hallo.",
       intro: "Eine Gelegenheit, eine Frage oder eine Idee? Schreib mir eine Nachricht — sie landet direkt in meinem Postfach. Ich antworte meist innerhalb von 24 Stunden.",
@@ -604,10 +622,12 @@ const RAW: Record<Locale, Raw> = {
     ],
     projLabel: "Progetti",
     projTitle: "Cosa ho creato",
-    projTitles: ["Afterlife Events", "Ingegneria del suono", "Tecnologia e web"],
-    projTags: ["Fondatore · Eventi", "Autodidatta · 6+ anni", "Creatore · Strumenti IA"],
+    projTitles: ["Afterlife Events", "TuneBad", "BreakBuddy", "Ingegneria del suono", "Tecnologia e web"],
+    projTags: ["Fondatore · Eventi", "Creato e lanciato · Strumenti musicali", "In sviluppo · App per studenti", "Autodidatta · 6+ anni", "Creatore · Strumenti IA"],
     projDescs: [
       "Un'attività di eventi redditizia creata da zero: 5 eventi, oltre 1.500 biglietti e più di 50.000 $ di ricavi a circa il 47% di margine, il tutto senza spese pubblicitarie.",
+      "Un toolkit musicale gratuito nel browser per producer, online su tunebad.com: analisi di BPM e tonalità, calcolatori di delay e riverbero sincronizzati al tempo, controllo del loudness per lo streaming, edit slowed + reverb e conversione audio. Tutto gira in privato nel browser, in 8 lingue.",
+      "Un'app social di orari per studenti universitari che sto costruendo ora: allinea il tuo orario delle lezioni con quello dei tuoi amici così le pause coincidono davvero — vedi chi è libero e organizza una pausa in due tocchi. Lanciata al Dawson College con app, API e web online.",
       "Tecnico del missaggio da oltre 6 anni. Ho missato più di 600 brani di pop, rap, Afrobeat e altri generi per clienti paganti, usando Logic Pro e FL Studio.",
       "Creo siti web e piccole app con strumenti di IA come Claude e ChatGPT e monto video in Final Cut Pro.",
     ],
@@ -634,7 +654,7 @@ const RAW: Record<Locale, Raw> = {
     ctaText: "Che si tratti di un ruolo, di un progetto o di un evento, mi piacerebbe saperne di più. Di solito rispondo entro un giorno.",
     ctaButton: "Contattami",
     footerRights: `© 2026 ${NAME}. Tutti i diritti riservati.`,
-    footerSub: `Aperto a nuove opportunità · ${profile.location} · Aggiornato maggio 2026`,
+    footerSub: `Aperto a nuove opportunità · ${profile.location} · Aggiornato luglio 2026`,
     contact: {
       back: "← Torna alla home", h1: "Salve.",
       intro: "Hai un'opportunità, una domanda o un'idea? Inviami un messaggio e arriverà direttamente nella mia casella. Di solito rispondo entro 24 ore.",
@@ -683,10 +703,12 @@ const RAW: Record<Locale, Raw> = {
     ],
     projLabel: "项目",
     projTitle: "我的作品",
-    projTitles: ["Afterlife Events", "音频工程", "技术与网站"],
-    projTags: ["创始人 · 活动", "自学 · 6年以上", "构建者 · AI 工具"],
+    projTitles: ["Afterlife Events", "TuneBad", "BreakBuddy", "音频工程", "技术与网站"],
+    projTags: ["创始人 · 活动", "自建并上线 · 音乐工具", "开发中 · 学生应用", "自学 · 6年以上", "构建者 · AI 工具"],
     projDescs: [
       "我从零打造的一家盈利的活动策划公司：5 场活动、1,500 多张门票、超过 5 万美元营收，利润率约 47%，且零广告投入。",
+      "一个面向制作人的免费浏览器音乐工具箱，已上线 tunebad.com：BPM 和调性分析、与速度同步的延迟和混响计算器、流媒体响度检测、slowed + reverb 编辑以及音频转换。全部在浏览器中私密运行，支持 8 种语言。",
+      "我正在开发的一款面向大学生的社交课表应用：把你的课表和朋友的课表对齐，让空闲时间真正重合——看看谁有空，两步就能约好休息。已在 Dawson College 上线，应用、API 和网页均已发布。",
       "拥有 6 年以上混音经验。曾为付费客户混音 600 多首歌曲，涵盖流行、说唱、Afrobeat 等多种风格，使用 Logic Pro 和 FL Studio。",
       "我使用 Claude、ChatGPT 等 AI 编程工具构建网站和小型应用，并用 Final Cut Pro 剪辑视频。",
     ],
@@ -713,7 +735,7 @@ const RAW: Record<Locale, Raw> = {
     ctaText: "无论是职位、项目还是活动，我都很乐意了解。我通常在一天内回复。",
     ctaButton: "联系我",
     footerRights: `© 2026 ${NAME}。保留所有权利。`,
-    footerSub: `欢迎新机会 · ${profile.location} · 更新于 2026 年 5 月`,
+    footerSub: `欢迎新机会 · ${profile.location} · 更新于 2026 年 7 月`,
     contact: {
       back: "← 返回首页", h1: "你好。",
       intro: "有机会、问题或想法吗？给我留言，它会直接进入我的收件箱。我通常在 24 小时内回复。",
@@ -762,10 +784,12 @@ const RAW: Record<Locale, Raw> = {
     ],
     projLabel: "プロジェクト",
     projTitle: "つくってきたもの",
-    projTitles: ["Afterlife Events", "オーディオエンジニアリング", "テクノロジー・ウェブ"],
-    projTags: ["創業者 · イベント", "独学 · 6年以上", "ビルダー · AIツール"],
+    projTitles: ["Afterlife Events", "TuneBad", "BreakBuddy", "オーディオエンジニアリング", "テクノロジー・ウェブ"],
+    projTags: ["創業者 · イベント", "開発・公開済み · 音楽ツール", "開発中 · 学生向けアプリ", "独学 · 6年以上", "ビルダー · AIツール"],
     projDescs: [
       "ゼロから立ち上げた収益性の高いイベント事業：5 イベント、1,500 枚超のチケット、約 47% の利益率で 5 万ドル超の売上——広告費ゼロ。",
+      "プロデューサー向けの無料ブラウザ音楽ツールキット（tunebad.com で公開中）：BPMとキーの分析、テンポ同期のディレイ／リバーブ計算、ストリーミングのラウドネスチェック、slowed + reverb 編集、音声変換。すべてブラウザ内でプライベートに動作し、8言語に対応。",
+      "現在開発中の大学生向けソーシャル時間割アプリ。自分の時間割を友達と同期して空き時間の重なりを可視化し、誰が空いているかを確認して2タップで休憩の予定を立てられます。Dawson College でアプリ・API・ウェブを公開済み。",
       "6 年以上のミキシングエンジニア経験。Logic Pro と FL Studio を使い、ポップ、ラップ、Afrobeat など 600 曲以上を有料クライアント向けにミックスしてきました。",
       "Claude や ChatGPT などの AI コーディングツールでウェブサイトや小規模アプリを制作し、Final Cut Pro で動画編集も行います。",
     ],
@@ -792,7 +816,7 @@ const RAW: Record<Locale, Raw> = {
     ctaText: "職種、プロジェクト、イベントなど、ぜひお聞かせください。通常1日以内に返信します。",
     ctaButton: "連絡する",
     footerRights: `© 2026 ${NAME}. 全著作権所有。`,
-    footerSub: `新しい機会を歓迎します · ${profile.location} · 2026年5月更新`,
+    footerSub: `新しい機会を歓迎します · ${profile.location} · 2026年7月更新`,
     contact: {
       back: "← ホームに戻る", h1: "こんにちは。",
       intro: "機会・ご質問・アイデアがあれば、メッセージをお送りください。私の受信箱に直接届きます。通常24時間以内に返信します。",
@@ -841,10 +865,12 @@ const RAW: Record<Locale, Raw> = {
     ],
     projLabel: "프로젝트",
     projTitle: "내가 만든 것",
-    projTitles: ["Afterlife Events", "오디오 엔지니어링", "기술 · 웹"],
-    projTags: ["창업자 · 이벤트", "독학 · 6년 이상", "빌더 · AI 도구"],
+    projTitles: ["Afterlife Events", "TuneBad", "BreakBuddy", "오디오 엔지니어링", "기술 · 웹"],
+    projTags: ["창업자 · 이벤트", "제작 및 출시 · 음악 도구", "개발 중 · 학생 앱", "독학 · 6년 이상", "빌더 · AI 도구"],
     projDescs: [
       "맨손으로 일군 수익성 있는 이벤트 사업: 행사 5개, 티켓 1,500장 이상, 약 47% 이익률로 5만 달러 이상의 매출 — 광고비 0.",
+      "프로듀서를 위한 무료 브라우저 음악 툴킷(tunebad.com에서 이용 가능): BPM·키 분석, 템포 동기화 딜레이·리버브 계산기, 스트리밍 라우드니스 확인, slowed + reverb 편집, 오디오 변환. 모든 처리가 브라우저에서 비공개로 실행되며 8개 언어를 지원합니다.",
+      "지금 개발 중인 대학생용 소셜 시간표 앱: 내 수업 시간표를 친구들과 맞춰 공강이 실제로 겹치게 해줍니다 — 누가 시간이 되는지 확인하고 두 번의 탭으로 쉬는 시간을 계획하세요. Dawson College에서 앱·API·웹을 출시했습니다.",
       "6년 이상의 믹싱 엔지니어 경력. Logic Pro와 FL Studio로 팝, 랩, 아프로비트 등 600곡 이상을 유료 클라이언트를 위해 믹싱했습니다.",
       "Claude, ChatGPT 같은 AI 코딩 도구로 웹사이트와 소규모 앱을 만들고, Final Cut Pro로 영상을 편집합니다.",
     ],
@@ -871,7 +897,7 @@ const RAW: Record<Locale, Raw> = {
     ctaText: "채용, 프로젝트, 행사 무엇이든 듣고 싶습니다. 보통 하루 안에 답장드립니다.",
     ctaButton: "연락하기",
     footerRights: `© 2026 ${NAME}. 모든 권리 보유.`,
-    footerSub: `새로운 기회에 열려 있음 · ${profile.location} · 2026년 5월 업데이트`,
+    footerSub: `새로운 기회에 열려 있음 · ${profile.location} · 2026년 7월 업데이트`,
     contact: {
       back: "← 홈으로 돌아가기", h1: "안녕하세요.",
       intro: "기회, 질문, 아이디어가 있으신가요? 메시지를 보내주시면 제 받은편지함으로 바로 도착합니다. 보통 24시간 이내에 답장드립니다.",
@@ -920,10 +946,12 @@ const RAW: Record<Locale, Raw> = {
     ],
     projLabel: "Проекты",
     projTitle: "Что я создал",
-    projTitles: ["Afterlife Events", "Звукорежиссура", "Технологии и веб"],
-    projTags: ["Основатель · Мероприятия", "Самоучка · 6+ лет", "Разработчик · ИИ-инструменты"],
+    projTitles: ["Afterlife Events", "TuneBad", "BreakBuddy", "Звукорежиссура", "Технологии и веб"],
+    projTags: ["Основатель · Мероприятия", "Создал и запустил · Музыкальные инструменты", "В разработке · Приложение для студентов", "Самоучка · 6+ лет", "Разработчик · ИИ-инструменты"],
     projDescs: [
       "Прибыльный бизнес мероприятий, построенный с нуля: 5 мероприятий, более 1 500 билетов и свыше 50 000 $ выручки при марже около 47 % — без затрат на рекламу.",
+      "Бесплатный браузерный набор музыкальных инструментов для продюсеров, доступен на tunebad.com: анализ BPM и тональности, калькуляторы дилея и реверберации, синхронизированные с темпом, проверка громкости для стриминга, эдиты slowed + reverb и конвертация аудио. Всё работает приватно в браузере, на 8 языках.",
+      "Социальное приложение-расписание для студентов, над которым я работаю сейчас: оно сопоставляет твоё расписание занятий с расписаниями друзей, чтобы свободные пары действительно совпадали — смотри, кто свободен, и планируй перерыв в два касания. Запущено в Dawson College: приложение, API и веб уже работают.",
       "Сведение более 6 лет. Свёл более 600 треков в жанрах поп, рэп, Afrobeat и других для платных клиентов в Logic Pro и FL Studio.",
       "Создаю сайты и небольшие приложения с помощью ИИ-инструментов, таких как Claude и ChatGPT, и монтирую видео в Final Cut Pro.",
     ],
@@ -950,7 +978,7 @@ const RAW: Record<Locale, Raw> = {
     ctaText: "Будь то вакансия, проект или мероприятие — буду рад услышать. Обычно отвечаю в течение дня.",
     ctaButton: "Связаться",
     footerRights: `© 2026 ${NAME}. Все права защищены.`,
-    footerSub: `Открыт к новым возможностям · ${profile.location} · Обновлено в мае 2026`,
+    footerSub: `Открыт к новым возможностям · ${profile.location} · Обновлено в июле 2026`,
     contact: {
       back: "← На главную", h1: "Здравствуйте.",
       intro: "Есть возможность, вопрос или идея? Напишите мне — сообщение придёт прямо в мой почтовый ящик. Обычно отвечаю в течение 24 часов.",
@@ -999,10 +1027,12 @@ const RAW: Record<Locale, Raw> = {
     ],
     projLabel: "المشاريع",
     projTitle: "ما الذي بنيته",
-    projTitles: ["Afterlife Events", "هندسة الصوت", "التقنية والويب"],
-    projTags: ["مؤسس · فعاليات", "عصامي · 6+ سنوات", "صانع · أدوات ذكاء اصطناعي"],
+    projTitles: ["Afterlife Events", "TuneBad", "BreakBuddy", "هندسة الصوت", "التقنية والويب"],
+    projTags: ["مؤسس · فعاليات", "صممته وأطلقته · أدوات موسيقية", "قيد التطوير · تطبيق للطلاب", "عصامي · 6+ سنوات", "صانع · أدوات ذكاء اصطناعي"],
     projDescs: [
       "شركة فعاليات مربحة بنيتُها من الصفر: 5 فعاليات وأكثر من 1500 تذكرة وأكثر من 50,000 دولار من الإيرادات بهامش يقارب 47% — دون أي إنفاق إعلاني.",
+      "مجموعة أدوات موسيقية مجانية تعمل في المتصفح للمنتجين، متاحة على tunebad.com: تحليل الإيقاع (BPM) والمقام، وحاسبات التأخير والصدى المتزامنة مع الإيقاع، وفحص مستوى الصوت للبث، وتعديلات slowed + reverb، وتحويل الصوت. كل المعالجة تتم بخصوصية داخل المتصفح وبثماني لغات.",
+      "تطبيق جداول اجتماعي لطلاب الجامعات أعمل عليه الآن: يطابق جدول حصصك مع جداول أصدقائك حتى تتقاطع أوقات الفراغ فعلاً — اعرف من هو متفرغ وخطط لاستراحة بلمستين. أُطلق في كلية Dawson مع التطبيق وواجهة API والويب.",
       "مهندس مزج صوتي منذ أكثر من 6 سنوات. مزجتُ أكثر من 600 أغنية في البوب والراب والأفروبيت وغيرها لعملاء مدفوعين باستخدام Logic Pro وFL Studio.",
       "أبني مواقع وتطبيقات صغيرة باستخدام أدوات الذكاء الاصطناعي مثل Claude وChatGPT، وأحرّر مقاطع الفيديو في Final Cut Pro.",
     ],
@@ -1029,7 +1059,7 @@ const RAW: Record<Locale, Raw> = {
     ctaText: "سواء كان منصبًا أو مشروعًا أو فعالية، يسعدني أن أسمع عنه. أردّ عادةً خلال يوم واحد.",
     ctaButton: "تواصل معي",
     footerRights: `© 2026 ${NAME}. جميع الحقوق محفوظة.`,
-    footerSub: `منفتح على فرص جديدة · ${profile.location} · تحديث مايو 2026`,
+    footerSub: `منفتح على فرص جديدة · ${profile.location} · تحديث يوليو 2026`,
     contact: {
       back: "← العودة إلى الرئيسية", h1: "مرحبًا.",
       intro: "هل لديك فرصة أو سؤال أو فكرة؟ أرسل لي رسالة وستصل مباشرة إلى بريدي. أردّ عادةً خلال 24 ساعة.",
@@ -1078,10 +1108,12 @@ const RAW: Record<Locale, Raw> = {
     ],
     projLabel: "परियोजनाएँ",
     projTitle: "मैंने क्या बनाया",
-    projTitles: ["Afterlife Events", "ऑडियो इंजीनियरिंग", "तकनीक और वेब"],
-    projTags: ["संस्थापक · इवेंट्स", "स्व-शिक्षित · 6+ वर्ष", "बिल्डर · AI टूल्स"],
+    projTitles: ["Afterlife Events", "TuneBad", "BreakBuddy", "ऑडियो इंजीनियरिंग", "तकनीक और वेब"],
+    projTags: ["संस्थापक · इवेंट्स", "बनाया और लॉन्च किया · संगीत टूल", "निर्माणाधीन · छात्र ऐप", "स्व-शिक्षित · 6+ वर्ष", "बिल्डर · AI टूल्स"],
     projDescs: [
       "शून्य से बनाया गया लाभदायक इवेंट व्यवसाय: 5 आयोजन, 1,500+ टिकट और 50,000 डॉलर से अधिक राजस्व, ~47% मार्जिन पर — बिना किसी विज्ञापन खर्च के।",
+      "प्रोड्यूसर्स के लिए एक मुफ़्त ब्राउज़र-आधारित म्यूज़िक टूलकिट, tunebad.com पर लाइव: BPM और की (key) विश्लेषण, टेम्पो से जुड़े डिले और रीवर्ब कैलकुलेटर, स्ट्रीमिंग लाउडनेस जाँच, slowed + reverb एडिट और ऑडियो कन्वर्ज़न। सब कुछ ब्राउज़र में निजी रूप से चलता है, 8 भाषाओं में।",
+      "कॉलेज छात्रों के लिए एक सोशल टाइमटेबल ऐप जिस पर मैं अभी काम कर रहा हूँ: यह आपकी क्लास का शेड्यूल दोस्तों के शेड्यूल से मिलाता है ताकि खाली पीरियड सच में मिलें — देखें कौन फ़्री है और दो टैप में ब्रेक प्लान करें। Dawson College में ऐप, API और वेब लॉन्च हो चुके हैं।",
       "6+ साल से मिक्सिंग इंजीनियर। मैंने Logic Pro और FL Studio में पॉप, रैप, Afrobeat आदि के 600+ गाने पेड क्लाइंट्स के लिए मिक्स किए हैं।",
       "मैं Claude और ChatGPT जैसे AI कोडिंग टूल्स से वेबसाइट और छोटे ऐप बनाता हूँ, और Final Cut Pro में वीडियो एडिट करता हूँ।",
     ],
@@ -1108,7 +1140,7 @@ const RAW: Record<Locale, Raw> = {
     ctaText: "चाहे कोई भूमिका हो, प्रोजेक्ट हो या इवेंट, मैं उसके बारे में सुनना चाहूँगा। मैं आमतौर पर एक दिन में जवाब देता हूँ।",
     ctaButton: "मुझसे संपर्क करें",
     footerRights: `© 2026 ${NAME}. सर्वाधिकार सुरक्षित।`,
-    footerSub: `नए अवसरों के लिए तैयार · ${profile.location} · मई 2026 को अपडेट किया गया`,
+    footerSub: `नए अवसरों के लिए तैयार · ${profile.location} · जुलाई 2026 को अपडेट किया गया`,
     contact: {
       back: "← होम पर वापस", h1: "नमस्ते।",
       intro: "कोई अवसर, प्रश्न या विचार है? मुझे संदेश भेजें, यह सीधे मेरे इनबॉक्स में पहुँचेगा। मैं आमतौर पर 24 घंटे में जवाब देता हूँ।",

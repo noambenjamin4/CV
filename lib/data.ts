@@ -13,7 +13,7 @@ export const profile = {
   instagramLabel: "@afterlifevents",
   cv: "/noam-benjamin-cv.pdf",
   availability: "Open to new opportunities",
-  lastUpdated: "May 2026",
+  lastUpdated: "July 2026",
   currently: [
     { role: "Founder", org: "Afterlife Events" },
     { role: "Social Science student", org: "Dawson College" },
@@ -138,6 +138,22 @@ export const projects: Project[] = [
       "A profitable events business I built from scratch: 5 events, 1,500+ tickets, and over $50K in revenue at roughly 47% margin, all with zero ad spend.",
     link: "https://www.instagram.com/afterlifevents/",
     linkLabel: "@afterlifevents",
+  },
+  {
+    title: "TuneBad",
+    tag: "Built & shipped · Music tools",
+    description:
+      "A free browser-based music toolkit for producers, live at tunebad.com: BPM and key analysis, tempo-locked delay and reverb calculators, streaming loudness checks, slowed + reverb edits, and audio conversion. Everything runs privately in the browser, in 8 languages.",
+    link: "https://www.tunebad.com",
+    linkLabel: "tunebad.com",
+  },
+  {
+    title: "BreakBuddy",
+    tag: "In development · Student app",
+    description:
+      "A social timetable app for college students that I'm building right now: it lines your class schedule up with your friends' so free periods actually overlap — see who's free and plan a break in two taps. Launched at Dawson College with the app, API, and web live.",
+    link: "https://breakbuddy-app.vercel.app",
+    linkLabel: "breakbuddy-app.vercel.app",
   },
   {
     title: "Audio Engineering",
